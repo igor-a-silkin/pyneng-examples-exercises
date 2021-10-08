@@ -44,6 +44,27 @@ def parse_cdp_neighbors(command_output):
     Плюс учимся работать с таким выводом.
     """
 
+    router = ""
+    is_neighbors = False
+    result = {}
+
+    command = command_output.split('\n')
+
+    for index, row in enumerate(command):
+        if ">" in row:
+            first_row = row.split(">")
+            if len(first_row) > 0:
+                router = first_row[0]
+        elif not is_neighbors:
+            if row.startswith("Device ID"):
+                is_neighbors = True
+        elif is_neighbors:
+            neighbor = row.strip().split()
+            if len(neighbor) > 6:
+                result[(router, ''.join(neighbor[1:3]))] = (neighbor[0], ''.join(neighbor[-2:]))
+
+    return result
+
 
 if __name__ == "__main__":
     with open("sh_cdp_n_sw1.txt") as f:

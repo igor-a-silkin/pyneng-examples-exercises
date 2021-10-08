@@ -74,9 +74,31 @@
 
 """
 
-infiles = [
-    "sh_cdp_n_sw1.txt",
-    "sh_cdp_n_r1.txt",
-    "sh_cdp_n_r2.txt",
-    "sh_cdp_n_r3.txt",
-]
+from task_11_2 import create_network_map
+from draw_network_graph import draw_topology
+
+def unique_network_map(topology_dict):
+    topology = topology_dict
+    result = {}
+    dublicate = False
+
+    for key, value in topology.items():
+        for key_match, value_match in result.items():
+            if key_match == value:
+                dublicate = True
+                break
+        if not dublicate:
+            result[key] = value
+        else:
+            dublicate = False
+
+    return result
+
+if __name__ == "__main__":
+    infiles = [
+        "sh_cdp_n_sw1.txt",
+        "sh_cdp_n_r1.txt",
+        "sh_cdp_n_r2.txt",
+        "sh_cdp_n_r3.txt",]
+
+    draw_topology(unique_network_map(create_network_map(infiles)))
