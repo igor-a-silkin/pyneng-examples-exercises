@@ -14,3 +14,21 @@ Outbound Interface    FastEthernet0/0
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+try:
+    with open('ospf.txt', 'r') as f:
+        for line in f:
+            line_list = line.split()
+            if len(line_list) > 3: line_list.pop(3)
+
+            line_list[0] = (lambda x: 'OSPF' if x == 'O' else x)(line_list[0])
+            line_list[2] = line_list[2].replace('[','').replace(']','')
+            line_list[3] = line_list[3][:-1]
+            line_list[4] = line_list[4][:-1]
+
+            caption = ['Protocol','Prefix','AD/Metric','Next-Hop','Last update','Outbound Interface']
+
+            for name, item in zip(caption[1:], line_list[1:]):
+                print('{:20} {:20}'.format(name, item))
+            print('\n')
+except FileNotFoundError:
+    print('No such file!')

@@ -39,3 +39,20 @@ interface Ethernet0/3
 ...
 
 """
+
+from sys import argv
+
+
+if len(argv) <= 1:
+    print('File name is empty!')
+else:
+    try:
+        file = []
+        with open(argv[1],'r') as f:
+            file = f.readlines()
+
+        for line in file:
+            if not line.startswith('!'):
+                print(line.rstrip())
+    except FileNotFoundError:
+        print('No such file!')

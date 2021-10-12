@@ -16,4 +16,27 @@
 
 """
 
-ignore = ["duplex", "alias", "configuration"]
+from sys import argv
+
+if len(argv) <= 1:
+    print('File name is empty!')
+else:
+    try:
+        file = []
+        with open(argv[1],'r') as f:
+            file = f.readlines()
+
+        ignore = ['duplex', 'alias', 'Current configuration']
+
+        for line in file:
+            if not line.startswith('!'):
+                is_ignore = False
+                for item in ignore:
+                     if line.count(item) > 0:
+                        is_ignore = True
+                        break
+
+                if not is_ignore:
+                    print(line.rstrip())
+    except FileNotFoundError:
+        print('No such file!')
